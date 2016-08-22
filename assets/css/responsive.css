@@ -1,0 +1,20 @@
+@media (min-width:768px) {
+	body{padding-top:101px;}
+}
+@media (max-width:1000px) {
+	.signup-process ul li:nth-child(1), .signup-process ul li {width: 100%;}
+}
+@media (max-width:767px) {
+	.input-group[class*="col-"]{padding-left:15px;padding-right:15px}
+	body{padding-top:70px;}
+	.navbar-brand img{max-width:70px;}
+	.header-option{padding-top:20px;}
+	.left-menu ul li{margin-bottom:2px;}
+	.left-menu ul li a{font-size:15px;padding:10px 10px;}
+	
+	h1{font-size:30px;}
+	.saving-balance{font-size:40px;}
+}
+@media (max-width:460px) {
+	.header-option a{margin-right:12px;}
+}
