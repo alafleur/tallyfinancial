@@ -650,21 +650,38 @@ Class Finicity_Model extends Database_Model
 	
 	function getCustomerAccountsTransactions($idCustomer, $idAccount=false, $fromDate = false, $toDate = false)
 	{
-		if(!$fromDate)
+		/* if(!$fromDate)
 		{
 			$m = date("m");						
 			$y = date("Y");
 			$y = ($m == "01" ? ($y - 1) : $y);
 			$m = ($m == '01' ? '12' : ($m < 10 ? '0' : '') . ((int)$m - 1));
 			$fromDate = strtotime("{$y}-{$m}-01 00:00:00");
-		}
+		} */
 		if(!$toDate)
 			$toDate = time();
 		
-		if($idAccount)
+		/* if($idAccount)
 			$App_Url = __FINICITY_API_URL__ . "/v2/customers/{$idCustomer}/accounts/{$idAccount}/transactions?fromDate=$fromDate&toDate=$toDate";
 		else
-			$App_Url = __FINICITY_API_URL__ . "/v2/customers/{$idCustomer}/transactions?fromDate=$fromDate&toDate=$toDate";
+			$App_Url = __FINICITY_API_URL__ . "/v2/customers/{$idCustomer}/transactions?fromDate=$fromDate&toDate=$toDate"; */
+		
+		if($idAccount) {
+			if(!$fromDate){
+				$App_Url = __FINICITY_API_URL__ . "/v2/customers/{$idCustomer}/accounts/{$idAccount}/transactions";
+			}else{
+				$App_Url = __FINICITY_API_URL__ . "/v2/customers/{$idCustomer}/accounts/{$idAccount}/transactions?fromDate=$fromDate&toDate=$toDate";
+			}
+		}	
+		else {
+			if(!$fromDate){
+				$App_Url = __FINICITY_API_URL__ . "/v2/customers/{$idCustomer}/transactions";
+			}else{
+				$App_Url = __FINICITY_API_URL__ . "/v2/customers/{$idCustomer}/transactions?fromDate=$fromDate&toDate=$toDate";
+            } 
+		}	
+		
+		
 		$this->getPartnerAccessToken();		
 		$Header = array("Content-Type: application/xml", "Finicity-App-Key: " . __FINICITY_API_KEY__, "Finicity-App-Token: {$this->szFinAppToken}");		
 		var_dump($App_Url);

@@ -503,8 +503,8 @@ function getFinicityTransactions($obj, $idFinCustomer=0)
 	$kUser = $obj->User_Model;
 	$kFinicity = $obj->Finicity_Model;
 
-	$query = "TRUNCATE " . __DBC_SCHEMATA_TRANSACTIONS__ . ";";
-	$kUser->exeSQL($query);
+	/* $query = "TRUNCATE " . __DBC_SCHEMATA_TRANSACTIONS__ . ";";
+	$kUser->exeSQL($query); */
 		
 	$query = "
 		SELECT
@@ -588,6 +588,7 @@ function getFinicityTransactions($obj, $idFinCustomer=0)
 							(
 								idCustomer,
 								idAccount,
+								idTransaction,
 								idInstitution,
 								fAmount,
 								szDescription,
@@ -599,6 +600,7 @@ function getFinicityTransactions($obj, $idFinCustomer=0)
 							(
 								" . (int)$idCustomer . ",								
 								" . (int)$transaction['accountId'] . ",
+								'" . $transaction['institutionTransactionId'] . "',
 								" . (int)$idFinicityInstitution . ",
 								" . format_number($transaction['amount']) . ",
 								'" . $kUser->sql_real_escape_string(trim($transaction['description'])) . "',
