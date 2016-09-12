@@ -11,14 +11,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<br>
 				<div class="login-form">
 					<div class="alert alert-success">
-						Your sign up is successfully completed. Your account is currently being verified. You'll be notified via email and text message when the verification is complete or if we have questions for you.
+						Your sign up is successfully completed. Your account is currently being verified. You'll be notified via text message when the verification is complete or if we have questions for you.
 					</div>
 					<p>
 						<a href="<?=__BASE_URL__?>/users/login">Log into your Tally Account</a>
 					</p>
 				</div>
 				<?php } else if($iSignUpStep == 4){?>
-				<h1 class="align-center">Complete your account information to activate the automated savings transfers</h1>
+				<h1 class="align-center">Complete your account information</h1>
 				<br>
 				<div class="login-form">
 					<form id="frmVerifyBankingInfo" method="POST" action="<?=__SECURE_BASE_URL__?>/users/signup/account-information" enctype="multipart/form-data" class="form-horizontal">
@@ -177,7 +177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<h1 class="align-center">Sign up for your Tally Account</h1>
 				<?php if($iFinicityAddCustomerFailed){?>
 				<br>
-				<div class="alert alert-danger">There is some problem to add your account, Please try again after some time. If problem persists, <a href="#">contact us</a>.</div>
+				<div class="alert alert-danger">Please try again. If the problem persists, contact us at, <a href="mailto::info@tallyfinancial.com">info@tallyfinancial.com</a>.</div>
 				<?php }?>
 				<div class="login-form">
 					<form name="frmRegister" id="frmRegister" action="<?=__SECURE_BASE_URL__?>/users/signup" method="post" autocomplete="off">

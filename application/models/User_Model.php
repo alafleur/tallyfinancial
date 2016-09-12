@@ -722,8 +722,7 @@ class User_Model extends Database_Model
 						$message = "
 						Hello {$this->szFirstName},<br><br>
 						<a href=\"" . __SECURE_BASE_URL__ . "/users/forgot-password/$link_key\"><b>Click Here to reset your password.</b></a><br><br>
-						If you need assistance, please <a href=\"#\">Click Here to Contact Us</a>
-						";
+						If you need assistance, please email at <a href=\"mailto::info@tallyfinancial.com\">info@tallyfinancial.com</a>.";
 						$subject = $this->szFirstName." ".$this->szLastName." Tally Reset Your Password";
 						$to = "{$this->szFirstName} {$this->szLastName} <{$this->szEmail}>";
 						$from = __CUSTOMER_SUPPORT_EMAIL__;
@@ -1277,7 +1276,7 @@ class User_Model extends Database_Model
 					$subject = $this->szFirstName." ".$this->szLastName." Tally account verified";
 					$to = "{$this->szFirstName} {$this->szLastName} <{$this->szEmail}>";
 					$from = __CUSTOMER_SUPPORT_EMAIL__;				
-					sendEmail($to, $from, $subject, $message);
+					// sendEmail($to, $from, $subject, $message);
 					
 					// send text message
 					$data['szMobilePhone'] = $this->szMobilePhone;

@@ -375,7 +375,7 @@ $(document).ready(function(){
 		}
 	);*/
 	if($('.cant-find-it').length > 0){
-		$('.cant-find-it').parent().parent().parent().parent().after('<div class="cant-find-it-msg">Depending on your bank, Tally may be able to find your transit number for you. If we can\'t, we\'ll reach out to work with you to find it.</div>');
+		$('.cant-find-it').parent().parent().parent().parent().parent().prepend('<div class="cant-find-it-msg">Depending on your bank, Tally may be able to find your transit number for you. Not sure of your transit number? Click Can\'t Find It.</div><br />');
         $('.modal-footer').css({fontSize:14});
 	}
 	

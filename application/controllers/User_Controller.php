@@ -716,11 +716,11 @@ class User_Controller extends CI_Controller {
 					{
 						$szForgotPassSuccess = 'You have been emailed a link that will allow you to reset your password.<br><br>
 						If you do not receive the password reset email, please check your "spam" folders.<br><br>
-						If you need assistance, please <a href="#">Click Here to Contact Us</a>.';
+						If you need assistance, please email at <a href="mailto::info@tallyfinancial.com">info@tallyfinancial.com</a>.';
 					}
 					else
 					{
-						$szForgotPassError = 'Reset password link will not Send <a href="#"><strong>Click Here to Contact Us</strong></a>';
+						$szForgotPassError = 'Reset password link will not Send please email at <a href="mailto::info@tallyfinancial.com">info@tallyfinancial.com</a>';
 					}
 				}
 			}
