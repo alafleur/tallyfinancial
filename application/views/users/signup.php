@@ -216,8 +216,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input type="password" name="arRegister[p_re_password]" id="p_re_password" placeholder="Re-enter password" class="form-control required re-match" autocomplete="off">
 							<?=(!empty($arErrorMessages['p_re_password']) ? "<span class=\"help-block pull-left\"><i class=\"fa fa-times-circle\"></i> {$arErrorMessages['p_re_password']}</span>" : "")?>							
 						</div>
-						
+						<?php //print_r($arErrorMessages); die;?>
+						<div class="clearfix"></div>
+						<div class="form-group<?=(!empty($arErrorMessages['province']) ? ' has-error' : '')?>">
+						<label>Province/region of home bank branch</label>
+							<select name="arRegister[province]" id="id_province" class="form-control" placeholder="Province/region of home bank branch">
+								<option value="">Province/region of home bank branch</option>
+								<?php
+								$provinces = unserialize(PROVINCES);
+								ksort($provinces);
+								foreach ($provinces as $index => $province) { 
+								$selected = '';
+								 if ($index == $_POST['arRegister']['province']) {
+									 $selected = 'selected="selected"';
+								 }
+								?>
+									<option <?php echo $selected;?> value="<?php echo $index;?>"> <?php echo $province;?></option>
+								<?php }
+								?>
+							</select>
+							<?=(!empty($arErrorMessages['province']) ? "<span class=\"help-block pull-left\"><i class=\"fa fa-times-circle\"></i> {$arErrorMessages['province']}</span>" : "")?>
+						</div>
 						<div class="form-group">
+						
 							<input type="submit" name="arRegister[p_register]" value="Sign Up" class="btn btn-full btn-form-submit1">
 						</div>
 

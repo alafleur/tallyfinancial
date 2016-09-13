@@ -30,11 +30,14 @@ if(isset($_POST['p_withdraw']))
 		{
 			$obj->User_Model->addError('p_withdraw', 'You can\'t make any further withdraw request as you don\'t have any more Tally balance.');
 		}
+		else if ($fTotalAvalable < $fTransferAmount) {
+			$obj->User_Model->addError('p_withdraw', 'Please enter an amount less than or equal to the total available savings.');
+		}
 		else
 		{
 			if($obj->User_Model->addCustomerSavingsTransfer($idCustomer, $fTransferAmount, true))
 			{
-				$done = "Your withdraw request successfully submitted. Admin will process your request as soon as possible.";
+				$done = "Your request to withdraw was successfully submitted and Admin will process your request as soon as possible.";
 				
 				// send message to admin
 				sendMessege(__ADMIN_MOBILE_NUMBER__, "User {$obj->User_Model->szFirstName} {$obj->User_Model->szLastName}({$obj->User_Model->szEmail}) has requested for withdrawal of $" . format_number($fTransferAmount, true) . " from Tally savings. Please check and approve the request.");

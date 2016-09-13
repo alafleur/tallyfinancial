@@ -103,6 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php }?>
 					</ul>
 					<?php }?>
+					<p>Note: Depending on your bank, transactions may show as executed one or two business days later than they are listed here.</p>
 				</div>
 				
 			</div>

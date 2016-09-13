@@ -140,7 +140,8 @@ class Ajax_Controller extends CI_Controller {
 						</div>
 						<input type="hidden" name="arLogin[id]" value="<?=$idInstitute?>">
 						<div>
-							We never see or store your credentials, they are sent directly to your bank.
+							We never see or store your credentials, they are sent directly to your bank.<br />
+							It may take up to two minutes to load.
 						</div>
 					</form>
 					<?php
@@ -480,6 +481,7 @@ class Ajax_Controller extends CI_Controller {
 				</div>
 				<div>
 					We never see or store your credentials, they are sent directly to your bank.
+					It may take up to two minutes to load.
 				</div>
 				<input type="hidden" name="arLogin[questions][<?=$i?>][text]" value="<?=sanitize_post_field_value($question['text'])?>">
 				<input type="hidden" name="arLogin[id]" value="<?=$idInstitute?>">

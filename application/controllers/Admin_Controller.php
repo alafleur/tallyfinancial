@@ -365,6 +365,7 @@ class Admin_Controller extends CI_Controller {
 		$data['fMostRecentTransaction'] = 0;
 		$data['szFirstTransactionDate'] = "";
 		$data['iFirstTransactionDays'] = "";
+		$data['szProvinceRegion'] = "";
 		$data['is_admin_login'] = $this->is_admin_login;
 		
 		if(trim($_POST['confirm']['p_func']) == "VERIFY")
@@ -518,6 +519,7 @@ class Admin_Controller extends CI_Controller {
 			
 			// get chequing account balance
 			$data['fChequingAccountBalance'] = $this->User_Model->getChequingBalance($this->User_Model->idFinicity);
+			$data['szProvinceRegion'] = $this->User_Model->szProvinceRegion;
 		
 			if(!empty($_POST['arMsg']))
 			{

@@ -83,14 +83,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 			<?php } else if($obj->User_Model->szInstitution != '' && $obj->User_Model->szTransitNumber != '' && $obj->User_Model->szAccountNumber != '' && $obj->User_Model->szVerificationFile == ''){?>
-			<h1 class="align-center">Verify your external savings account</h1>
+			<h1 class="align-center">External Savings Account Details</h1>
 			<br>
-			<p>Please upload one of the following-</p>
-			<ul>
-				<li>The first page of your saving bank statement</li>
-				<li>An image of a void cheque</li>
-				<li>A screenshot of your online banking account clearly showing your full name, bank's logo, <strong>complete account and transit number</strong>, and the current balance in your account</li>
-			</ul>
 			<div class="row">
 				<div class="col-sm-2"></div>
 				<div class="col-sm-8">
@@ -112,20 +106,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="col-sm-7"><?=$obj->User_Model->szAccountNumber?></div>
 								</div>
 							</div>
-							
-							<div class="form-group<?=(!empty($obj->User_Model->arErrorMessages['p_verification_file']) ? ' has-error' : '')?>">						
-								<input type="file" name="p_verification_file">
-								<?=(!empty($obj->User_Model->arErrorMessages['p_verification_file']) ? "<span class=\"help-block pull-left\"><i class=\"fa fa-times-circle\"></i> {$obj->User_Model->arErrorMessages['p_verification_file']}</span>" : "")?>						
-							</div>
-							
-							<div class="form-group">
-								<input type="submit" name="arVerify[p_submit]" value="Submit" class="btn btn-full">
-								<input type="hidden" name="arVerify[p_id]" value="<?=$obj->User_Model->id?>">
-							</div>
 						</form>
 						
 						<p>
-							<a href="<?=__BASE_URL__?>/articles/faqs/how-do-i-verify-my-banking" target="_blank">How do I verify my bank account?</a>
 							<a href="<?=__SECURE_BASE_URL__?>/users/saving-account/change" class="pull-right">Change details</a>
 						</p>
 					</div>

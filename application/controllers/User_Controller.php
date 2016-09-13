@@ -36,7 +36,7 @@ class User_Controller extends CI_Controller {
 		$arErrorMessages = array();
 		if(!empty($_POST['arLogin']))
 		{
-			if($this->User_Model->validateCustomerData($_POST['arLogin'], array("p_id", "p_fname", "p_lname", "p_mobilephone")))
+			if($this->User_Model->validateCustomerData($_POST['arLogin'], array("p_id", "p_fname", "p_lname", "p_mobilephone",  'province')))
 			{
 				if($this->User_Model->checkCustomerExists($this->User_Model->szEmail))
 				{
@@ -134,7 +134,7 @@ class User_Controller extends CI_Controller {
 		$data['iFinicityAddCustomerFailed'] = false;
 		
 		if(!empty($_POST['arRegister']))
-		{
+		{ 
 			if($this->User_Model->validateCustomerData($_POST['arRegister'], array("p_id", "p_mobilephone")))
 			{
 				if($idUser = $this->User_Model->addCustomer())
@@ -716,11 +716,11 @@ class User_Controller extends CI_Controller {
 					{
 						$szForgotPassSuccess = 'You have been emailed a link that will allow you to reset your password.<br><br>
 						If you do not receive the password reset email, please check your "spam" folders.<br><br>
-						If you need assistance, please email at <a href="mailto::info@tallyfinancial.com">info@tallyfinancial.com</a>.';
+						If you need assistance, please email us <a href="mailto::info@tallyfinancial.com">info@tallyfinancial.com</a>.';
 					}
 					else
 					{
-						$szForgotPassError = 'Reset password link will not Send please email at <a href="mailto::info@tallyfinancial.com">info@tallyfinancial.com</a>';
+						$szForgotPassError = 'Reset password link will not Send please email us <a href="mailto::info@tallyfinancial.com">info@tallyfinancial.com</a>';
 					}
 				}
 			}

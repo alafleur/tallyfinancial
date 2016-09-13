@@ -46,6 +46,11 @@ class User_Model extends Database_Model
 		 $this->szPassword = $this->validateInput($value, __VLD_CASE_PASSWORD__, "p_password", "Password", 6, 32, $flag);
 	}
 	
+	function set_szProvinceRegion($value, $flag=true)
+	{
+		 $this->szProvinceRegion = $this->validateInput($value, __VLD_CASE_ANYTHING__, "province", "Province/region of home bank branch", false, false, true);
+	}
+	
 	function set_fAbsoluteMinBalance($value)
 	{
 		 $this->fAbsoluteMinBalance = $this->validateInput($value, __VLD_CASE_NUMERIC__, "p_absmin", "Absolute minimum of chequing account balance", false, false, false);
@@ -183,6 +188,7 @@ class User_Model extends Database_Model
 			if(!in_array('p_lname', $arExclude)) $this->set_szLastName(sanitize_all_html_input(trim($data['p_lname'])));
 			if(!in_array('p_email', $arExclude)) $this->set_szEmail(sanitize_all_html_input(trim($data['p_email'])));
 			if(!in_array('p_password', $arExclude)) $this->set_szPassword(sanitize_all_html_input(trim($data['p_password'])));
+			if(!in_array('province', $arExclude)) $this->set_szProvinceRegion(trim($data['province']));
 			if(!in_array('p_mobilephone', $arExclude)) $this->set_szMobilePhone(sanitize_all_html_input(trim($data['p_mobilephone'])));
 			
 			if($this->szEmail != '' && !isset($this->arErrorMessages['p_email']) && sanitize_all_html_input(trim($data['p_re_email'])) != '' && $this->szEmail != sanitize_all_html_input(trim($data['p_re_email'])))
@@ -201,6 +207,11 @@ class User_Model extends Database_Model
 			else if(isset($data['p_re_password']) && sanitize_all_html_input(trim($data['p_re_password'])) == '')
 			{
 				$this->addError("p_re_password", "Re-enter password required.");
+			}
+			
+			if($this->szProvinceRegion != '' && !isset($this->arErrorMessages['province']) && !trim($data['province']))
+			{	
+				$this->addError("province", "Province/region of home bank branch is required.");
 			}
 			
 			if(!$this->error)
@@ -240,6 +251,7 @@ class User_Model extends Database_Model
 				U.szFirstName,
 				U.szLastName,
 				U.szEmail,
+				U.szProvinceRegion,
 				U.szMobilePhone,
 				U.szPassword,
 				U.iSignupStep,
@@ -280,6 +292,7 @@ class User_Model extends Database_Model
 	       	if ($this->iNumRows > 0)
 	        {
 	         	$row = $this->getAssoc($result);
+
 	           	$this->id = (int)$row['id'];
 	           	$this->idFinicity = (int)$row['idFinicity'];
 	           	$this->idFinicityInstitution = (int)$row['idFinicityInstitution'];
@@ -316,6 +329,7 @@ class User_Model extends Database_Model
 	           	$this->dtAutoSavingsChanged = trim($row['dtAutoSavingsChanged']);
 	           	$this->szUniqueKey = trim($row['szUniqueKey']);
 	           	$this->iSavingAcountChanged = (int)$row['iSavingAcountChanged'];
+	           	$this->szProvinceRegion = $row['szProvinceRegion'];
 	           	
 	           	return true;
 	        }
@@ -359,7 +373,8 @@ class User_Model extends Database_Model
 					szLastName,
 					szEmail,
 					szPassword,
-					szUniqueKey
+					szUniqueKey,
+					szProvinceRegion
 				)
 				VALUES
 				(
@@ -368,7 +383,8 @@ class User_Model extends Database_Model
 					'" . $this->sql_real_escape_string($this->szLastName) . "',
 					'" . $this->sql_real_escape_string($this->szEmail) . "',
 					'" . $this->sql_real_escape_string(encrypt(trim($this->szPassword))) . "',
-					'" . $this->sql_real_escape_string($this->getUniqueKeyForCustomer()) . "'
+					'" . $this->sql_real_escape_string($this->getUniqueKeyForCustomer()) . "',
+					'" . $this->sql_real_escape_string($this->szProvinceRegion) . "'
 				)
 			";
 			if($result=$this->exeSQL($query))
@@ -722,7 +738,7 @@ class User_Model extends Database_Model
 						$message = "
 						Hello {$this->szFirstName},<br><br>
 						<a href=\"" . __SECURE_BASE_URL__ . "/users/forgot-password/$link_key\"><b>Click Here to reset your password.</b></a><br><br>
-						If you need assistance, please email at <a href=\"mailto::info@tallyfinancial.com\">info@tallyfinancial.com</a>.";
+						If you need assistance, please email us <a href=\"mailto::info@tallyfinancial.com\">info@tallyfinancial.com</a>.";
 						$subject = $this->szFirstName." ".$this->szLastName." Tally Reset Your Password";
 						$to = "{$this->szFirstName} {$this->szLastName} <{$this->szEmail}>";
 						$from = __CUSTOMER_SUPPORT_EMAIL__;

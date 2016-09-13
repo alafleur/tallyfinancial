@@ -8,7 +8,7 @@ if(!empty($_POST['p_help']))
 	{
 		if($obj->User_Model->addUserQuery($_POST))
 		{
-			$done = "Your query has been submitted successfully. Soon we'll get back to you with some resolution.";
+			$done = "Thanks! Your query has been successfully submitted and we'll get back to you shortly.";
 			$_POST['p_comment'] = "";
 		}
 	}
@@ -37,9 +37,9 @@ if(!empty($_POST['p_help']))
 						<div class="login-form">
 							<form name="frmHelp" id="frmHelp" action="<?=__SECURE_BASE_URL__?>/users/help" method="post" class="form-horizontal">
 								<div class="form-group<?=(!empty($obj->User_Model->arErrorMessages['p_comment']) ? ' has-error' : '')?>">
-									<label class="col-sm-3">Comment</label>
+									<label class="col-sm-3">Comments/Questions?</label>
 									<div class="col-sm-9">
-										<textarea name="p_comment" id="p_comment" placeholder="Your comment" class="form-control required"><?=sanitize_post_field_value($_POST['p_comment'])?></textarea>
+										<textarea name="p_comment" id="p_comment" placeholder="Your Comments/Questions?" class="form-control required"><?=sanitize_post_field_value($_POST['p_comment'])?></textarea>
 										<?=(!empty($obj->User_Model->arErrorMessages['p_comment']) ? "<span class=\"help-block pull-left\"><i class=\"fa fa-times-circle\"></i> {$obj->User_Model->arErrorMessages['p_comment']}</span>" : "")?>
 									</div>
 								</div>
