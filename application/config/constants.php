@@ -314,3 +314,17 @@ define("__FRONT_END_COOKIE__","tally_front");
 define("__SESSION_LIFETIME__", "+ 12 Hours");
 define("__ENCRYPT_KEY__", "t@11y");
 define("__PAGINATION_RECORD_LIMIT__", 10);
+
+
+define('PROVINCES', serialize(array(
+	'British Columbia or Yukon' => 'British Columbia or Yukon',
+	'Alberta, Northwest Territories or Nunavut' => 'Alberta, Northwest Territories or Nunavut',
+	'Manitoba or North-Western Ontario' => 'Manitoba or North-Western Ontario',
+	'Eastern Ontario including Ottawa and surrounding area' => 'Eastern Ontario including Ottawa and surrounding area',
+	'Ontario (remaining) including Toronto and surrounding area' => 'Ontario (remaining) including Toronto and surrounding area',
+	'Western Quebec including Montreal and surrounding area' => 'Western Quebec including Montreal and surrounding area',
+	'Eastern Quebec or Labrador' => 'Eastern Quebec or Labrador',
+	'Nova Scotia, Prince Edward Island or Newfoundland (excluding Labrador)' => 'Nova Scotia, Prince Edward Island or Newfoundland (excluding Labrador)',
+	'New Brunswick' => 'New Brunswick',
+	'Saskatchewan' => 'Saskatchewan'
+)));
