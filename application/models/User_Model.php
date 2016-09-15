@@ -209,7 +209,7 @@ class User_Model extends Database_Model
 				$this->addError("p_re_password", "Re-enter password required.");
 			}
 			
-			if($this->szProvinceRegion != '' && !isset($this->arErrorMessages['province']) && !trim($data['province']))
+			if($this->szProvinceRegion != '' && !isset($this->arErrorMessages['province']) && $this->szProvinceRegion != $data['province'] && $data['province'] != '')
 			{	
 				$this->addError("province", "Province/region of home bank branch is required.");
 			}

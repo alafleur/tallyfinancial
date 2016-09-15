@@ -224,7 +224,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<option value="">Province/region of home bank branch</option>
 								<?php
 								$provinces = unserialize(PROVINCES);
-								ksort($provinces);
+								//ksort($provinces);
 								foreach ($provinces as $index => $province) { 
 								$selected = '';
 								 if ($index == $_POST['arRegister']['province']) {

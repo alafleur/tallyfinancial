@@ -157,7 +157,7 @@ class User_Controller extends CI_Controller {
 			if($this->User_Model->loadCustomer($_POST['arRegister2']['p_id']))
 				$this->session->set_userdata('signing_user', $this->User_Model->szEmail);
 					
-			if($this->User_Model->validateCustomerData($_POST['arRegister2'], array("p_fname", "p_lname", "p_email", "p_password")))
+			if($this->User_Model->validateCustomerData($_POST['arRegister2'], array("p_fname", "p_lname", "p_email", "p_password", 'province')))
 			{
 				/*if(!$this->User_Model->checkMobilePhoneInMapping($this->User_Model->szMobilePhone) && !$this->User_Model->checkCustomerExists($this->User_Model->szMobilePhone, false, true))
 				{*/			
@@ -188,7 +188,7 @@ class User_Controller extends CI_Controller {
 				
 			if(sanitize_all_html_input(trim($_POST['arRegister21']['p_vcode'])) != '')
 			{
-				if($this->User_Model->validateCustomerData($_POST['arRegister21'], array("p_fname", "p_lname", "p_email", "p_password", "p_mobilephone")))
+				if($this->User_Model->validateCustomerData($_POST['arRegister21'], array("p_fname", "p_lname", "p_email", "p_password", "p_mobilephone", 'province')))
 				{
 					$arMap = $this->User_Model->getMobileVerificationMapping($this->User_Model->id);
 					if(!empty($arMap))
@@ -233,7 +233,7 @@ class User_Controller extends CI_Controller {
 			if($this->User_Model->loadCustomer($_POST['arAuth']['p_id']))
 				$this->session->set_userdata('signing_user', $this->User_Model->szEmail);
 				
-			if($this->User_Model->validateCustomerData($_POST['arAuth'], array("p_fname", "p_lname", "p_email", "p_password", "p_mobilephone")))
+			if($this->User_Model->validateCustomerData($_POST['arAuth'], array("p_fname", "p_lname", "p_email", "p_password", "p_mobilephone", 'province')))
 			{
 				$institution_id = trim($_POST['arAuth']['institution_id']);
 				$account_id = trim($_POST['arAuth']['account_id']);
@@ -704,7 +704,7 @@ class User_Controller extends CI_Controller {
 				$_POST['forgot_password'][$key] = trim($value);
 			}
 			
-			if($this->User_Model->validateCustomerData($_POST['forgot_password'], array("p_id", "p_fname", "p_lname", "p_mobilephone", "p_password")))
+			if($this->User_Model->validateCustomerData($_POST['forgot_password'], array("p_id", "p_fname", "p_lname", "p_mobilephone", "p_password", 'province')))
 			{
 				if(!$this->User_Model->checkCustomerExists($_POST['forgot_password']['p_email']))
 				{			

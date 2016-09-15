@@ -27,7 +27,7 @@ if($szErrorMessage != ''){?>
       </div>
       <div class="modal-footer">
       	<button class="btn btn-form-submit1">Update Transit Number</button>
-      	<input type="hidden" name="arTransit[p_id]" id="p_id" value="<?=(int)$_POST['arTransit']['p_id']?>">
+      	<input type="hidden" name="arTransit[p_id]" id="p_id" value="<?=(int)$obj->User_Model->id; ?>">
       	<input type="hidden" name="p_type" id="p_type" value="<?=sanitize_post_field_value($_POST['p_type'])?>">
       </div>
     </div>
