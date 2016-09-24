@@ -509,6 +509,8 @@ class User_Controller extends CI_Controller {
 		$data['szFinicityInstitution'] = $this->User_Model->szFinicityInstitution;
 		$data['szFinicityAccountNumber'] = $this->User_Model->szFinicityAccountNumber;
 		$data['szFinicityAccountTransitNumber'] = $this->User_Model->szFinicityAccountTransitNumber;
+		$data['aggregationStatusCode'] = $this->User_Model->aggregationStatusCode;
+		$data['idFinicityInstitution'] = $this->User_Model->idFinicityInstitution;
 
         $this->load->view('templates/header', $data);
         $this->load->view('users/dashboard');

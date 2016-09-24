@@ -268,6 +268,7 @@ class User_Model extends Database_Model
 				U.fMinThreshold,
 				U.iAutoSavings,
 				U.dtAutoSavingsChanged,
+				U.aggregationStatusCode,
 				U.szUniqueKey,
 				(CASE WHEN AC.id IS NOT NULL THEN 1 ELSE 0 END) AS iSavingAcountChanged
 			FROM
@@ -292,7 +293,6 @@ class User_Model extends Database_Model
 	       	if ($this->iNumRows > 0)
 	        {
 	         	$row = $this->getAssoc($result);
-
 	           	$this->id = (int)$row['id'];
 	           	$this->idFinicity = (int)$row['idFinicity'];
 	           	$this->idFinicityInstitution = (int)$row['idFinicityInstitution'];
@@ -330,6 +330,7 @@ class User_Model extends Database_Model
 	           	$this->szUniqueKey = trim($row['szUniqueKey']);
 	           	$this->iSavingAcountChanged = (int)$row['iSavingAcountChanged'];
 	           	$this->szProvinceRegion = $row['szProvinceRegion'];
+	           	$this->aggregationStatusCode = $row['aggregationStatusCode'];
 	           	
 	           	return true;
 	        }

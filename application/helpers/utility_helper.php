@@ -496,6 +496,42 @@ function getImageSizeByString($str)
 	return $size;
 }
 
+function refreshFinicityAccounts($obj, $idFinCustomer=0) {
+	$obj->load->model('User_Model');
+	$obj->load->model('Finicity_Model');
+	$kUser = $obj->User_Model;
+	$kFinicity = $obj->Finicity_Model;
+	$query = "
+		SELECT
+			idFinicityAccount,
+			idFinicity,
+			idFinicityInstitution,
+			dtSignupVerified
+		FROM
+			" . __DBC_SCHEMATA_USERS__ . "
+		WHERE
+			iSignupStep > 4
+		" . ((int)$idFinCustomer > 0 ? "AND idFinicity = " . (int)$idFinCustomer : "") . "
+	";
+	if($result = $kUser->exeSQL($query))
+	{
+		if($kUser->iNumRows > 0)
+		{	
+			$arr = $kUser->getAssoc($result, true);
+			foreach ($arr as $row) {
+				$idFinicityAccount = (int)$row['idFinicityAccount'];
+				$idCustomer = (int)$row['idFinicity'];
+				$idFinicityInstitution = (int)$row['idFinicityInstitution'];
+				
+				$response = $kFinicity->refreshCustomerAccount($idCustomer, $idFinicityAccount, $idFinicityInstitution);
+				if (!empty($response)) {
+					echo '<pre>'; print_r($response); die;
+				}
+			}
+		}
+	}
+}
+
 function getFinicityTransactions($obj, $idFinCustomer=0)
 {
 	$obj->load->model('User_Model');

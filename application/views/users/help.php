@@ -37,8 +37,8 @@ if(!empty($_POST['p_help']))
 						<div class="login-form">
 							<form name="frmHelp" id="frmHelp" action="<?=__SECURE_BASE_URL__?>/users/help" method="post" class="form-horizontal">
 								<div class="form-group<?=(!empty($obj->User_Model->arErrorMessages['p_comment']) ? ' has-error' : '')?>">
-									<label class="col-sm-3">Comments/Questions?</label>
-									<div class="col-sm-9">
+									<label class="col-sm-4">Comments/Questions?</label>
+									<div class="col-sm-8">
 										<textarea name="p_comment" id="p_comment" placeholder="Your Comments/Questions?" class="form-control required"><?=sanitize_post_field_value($_POST['p_comment'])?></textarea>
 										<?=(!empty($obj->User_Model->arErrorMessages['p_comment']) ? "<span class=\"help-block pull-left\"><i class=\"fa fa-times-circle\"></i> {$obj->User_Model->arErrorMessages['p_comment']}</span>" : "")?>
 									</div>

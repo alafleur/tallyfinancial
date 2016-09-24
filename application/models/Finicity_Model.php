@@ -752,6 +752,35 @@ Class Finicity_Model extends Database_Model
 		}
 	}
 	
+	function refreshCustomerAccount($idCustomer = 0, $idFinicityAccount = 0, $idFinicityInstitution = 0) {
+		$App_Url = __FINICITY_API_URL__ . "/v1/customers/{$idCustomer}/accounts/{$idAccount}";
+		$this->getPartnerAccessToken();		
+		$Header = array("Content-Type: application/xml", "Finicity-App-Key: " . __FINICITY_API_KEY__, "Finicity-App-Token: {$this->szFinAppToken}");
+		if($result = $this->exeAppRequest($App_Url, $Header))
+		{
+			$response = $result['response'];
+			$curl_info = $result['curl_info'];
+		
+			if((int)$curl_info['http_code'] == 200)
+			{
+				return xml2Array($response);
+			}
+			else if(trim($response['message']) != '')
+			{
+				$this->szResolveError = trim($body['message']);
+				return false;
+			}		
+			else
+			{
+				$handle = fopen(__APP_PATH_LOGS__."/finicity.log", "a+");
+				fwrite($handle, "Following call to Finicity was unsuccessful with following details-\nAPI URL: $App_Url\nHTTP Code: {$curl_info['http_code']}\nResponse:".print_r(xml2Array($response),true)."\n\n");
+				fclose($handle);
+				
+				return false;
+			}
+		}
+	}
+	
 	function getCustomerAccountDetails($idCustomer, $idAccount)
 	{
 		$App_Url = __FINICITY_API_URL__ . "/v1/customers/{$idCustomer}/accounts/{$idAccount}";

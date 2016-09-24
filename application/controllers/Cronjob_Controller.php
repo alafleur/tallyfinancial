@@ -154,4 +154,9 @@ class Cronjob_Controller extends CI_Controller {
 		$this->load->model('Cronjob_Model');
 		$this->Cronjob_Model->getSavingTransactions($today);
 	}
+	
+	function refresh_accounts()
+	{		
+		refreshFinicityAccounts($this);
+	}
 }
