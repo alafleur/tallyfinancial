@@ -1674,7 +1674,7 @@ class User_Model extends Database_Model
 			WHERE
 				idCustomer = " . (int)$idUser . "
 			ORDER BY
-				dtBalanceDate DESC
+				dtAggregationAttemptDate DESC
 			LIMIT
 				0, 1
 		";

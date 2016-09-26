@@ -156,7 +156,59 @@ class Ajax_Controller extends CI_Controller {
 				echo "ERROR|||Unable to get institution details.";
 			}
 		}
-		else if($p_func == "LOGIN_WITH_INSTITUTION" || $p_func == "LOGIN_WITH_INSTITUTION_MFA" || $p_func == "ACTIVATE_CUSTOMER_ACCOUNT")
+		else if($p_func == "GET_INSTITUTE_LOGIN_FORM_RECONNECT")
+		{
+			$this->load->model('Finicity_Model');
+			$idInstitute = (int)$_POST['p_id'];
+			$arInstitutionDetails = $this->User_Model->getInstitution("id = " . (int)$idInstitute);
+			
+			if(!empty($arInstitutionDetails))
+			{	
+				$response = $this->Finicity_Model->getInstitutionLoginForm($idInstitute);
+				if(!empty($response['loginField']))
+				{
+					$this->User_Model->checkCustomerExists($this->session->userdata('signing_user'));
+					$this->User_Model->updateCustomerInstitution($idInstitute);
+					$this->User_Model->updateLoginStep($this->User_Model->id, 1);
+					
+					echo "SUCCESS|||{$arInstitutionDetails[0]['szName']}|||";?>
+					<form name="frmBankLogin" id="frmBankLogin" action="" method="post" class="form-horizontal">
+						<?php foreach($response['loginField'] as $key=>$field){?>
+						<div class="form-group">
+							<div class="col-sm-11 col-xs-10">
+								<input type="<?=(strpos(strtolower(trim($field['description'])), 'password') !== false ? 'password' : 'text')?>" id="<?=trim($field['id'])?>" name="arLogin[loginField][<?=$key?>][value]" placeholder="<?=trim($field['description'])?>" class="form-control required">								
+							</div>
+							<?php /*if(!empty($field['instructions'])){?>
+							<div class="col-sm-1 col-xs-2">
+								<a href="#" data-toggle="tooltip" title="<?=trim($field['instructions'][0])?>"><i class="fa fa-info-circle"></i></a>						
+							</div>
+							<?php }*/?>
+						</div>
+						<input type="hidden" name="arLogin[loginField][<?=$key?>][id]" value="<?=trim($field['id'])?>">
+						<input type="hidden" name="arLogin[loginField][<?=$key?>][name]" value="<?=trim($field['name'])?>">
+						<?php }?>
+						<div class="form-group">
+							<div class="col-sm-11 col-xs-10"><button type="button" class="btn" onclick="addInstitutionAccountsReconnect();">Login</button></div>
+						</div>
+						<input type="hidden" name="arLogin[id]" value="<?=$idInstitute?>">
+						<div>
+							We never see or store your credentials, they are sent directly to your bank.<br />
+							It may take up to two minutes to load.
+						</div>
+					</form>
+					<?php
+				}
+				else
+				{
+					echo "ERROR|||Unable to get institution details.";
+				}
+			}
+			else
+			{
+				echo "ERROR|||Unable to get institution details.";
+			}
+		}
+		else if($p_func == "LOGIN_WITH_INSTITUTION" || $p_func == "LOGIN_WITH_INSTITUTION_MFA" || $p_func == "ACTIVATE_CUSTOMER_ACCOUNT" || $p_func == "LOGIN_WITH_INSTITUTION_RECONNECT")
 		{
 			$show_mfa_form = false;
 			$this->load->model('Finicity_Model');
@@ -474,11 +526,17 @@ class Ajax_Controller extends CI_Controller {
 					<input type="text" id="question-<?=$i?>" name="arLogin[questions][<?=$i?>][answer]" placeholder="Your answer" class="form-control required">
 				</div>
 				<?php }}?>
-				
+				<?php if ($p_func == "LOGIN_WITH_INSTITUTION_RECONNECT") {?>
 				<div class="form-group">
-					<button type="button" class="btn" onclick="addInstitutionAccountsMFA();">Continue</button>
+					<button type="button" class="btn" onclick="addInstitutionAccountsMFAReconnect();">Continue</button>
 					<p class="pull-right" style="display: none;"><label>Time Left:</label> <span id="seconds">119</span> seconds</p>
 				</div>
+				<?php } else { ?>
+					<div class="form-group">
+						<button type="button" class="btn" onclick="addInstitutionAccountsMFA();">Continue</button>
+						<p class="pull-right" style="display: none;"><label>Time Left:</label> <span id="seconds">119</span> seconds</p>
+					</div>
+				<?php } ?>
 				<div>
 					We never see or store your credentials, they are sent directly to your bank.
 					It may take up to two minutes to load.

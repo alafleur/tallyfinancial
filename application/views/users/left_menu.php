@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<li<?=($active_menu == "" || $active_menu == "dashboard" ? ' class="active"' : '')?>><a href="<?=__SECURE_BASE_URL__?>/users/dashboard">Dashboard</a></li>
 						<li<?=($active_menu == "commands" ? ' class="active"' : '')?>><a href="<?=__SECURE_BASE_URL__?>/users/commands">Commands</a></li>
 						<?php if ($aggregationStatusCode != 0) { ?>
-							<li><a class="btn btn-danger" onclick="connect_with_bank('<?php echo $idFinicityInstitution; ?>')"  data-toggle="modal" href="#">Reconnect Your account</a></li>
+							<li><a class="btn btn-danger" onclick="reconnect_with_bank('<?php echo $idFinicityInstitution; ?>')"  data-toggle="modal" href="#">Reconnect Your account</a></li> 
 							<div id="loginModal" class="modal fade" role="dialog">
 							  <div class="modal-dialog">
 								<div class="loading-popup" id="popup-loading">

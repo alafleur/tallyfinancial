@@ -503,6 +503,7 @@ function refreshFinicityAccounts($obj, $idFinCustomer=0) {
 	$kFinicity = $obj->Finicity_Model;
 	$query = "
 		SELECT
+			id,
 			idFinicityAccount,
 			idFinicity,
 			idFinicityInstitution,
@@ -520,12 +521,51 @@ function refreshFinicityAccounts($obj, $idFinCustomer=0) {
 			$arr = $kUser->getAssoc($result, true);
 			foreach ($arr as $row) {
 				$idFinicityAccount = (int)$row['idFinicityAccount'];
+				$idUser = (int)$row['id'];
 				$idCustomer = (int)$row['idFinicity'];
 				$idFinicityInstitution = (int)$row['idFinicityInstitution'];
+				$szFinicityAccountNumber = (int)$row['szFinicityAccountNumber'];
 				
 				$response = $kFinicity->refreshCustomerAccount($idCustomer, $idFinicityAccount, $idFinicityInstitution);
+				
 				if (!empty($response)) {
-					echo '<pre>'; print_r($response); die;
+					if (!empty($response['account'][0])) {
+						$account = $response['account'][0];
+						foreach ($response['account'] as $Taccount) {
+							if ($szFinicityAccountNumber == $Taccount['number']) {
+								$account = $Taccount;
+								break;
+							}
+						}
+					}
+					else {
+						$account = $response['account'];
+					}
+					
+					if ($account['aggregationStatusCode'] != 0) {
+						$query = "
+							UPDATE
+								" . __DBC_SCHEMATA_USERS__ . "
+							SET
+								aggregationStatusCode = '" . $account['aggregationStatusCode'] . "',
+								aggregationReason = '" . json_encode($account) . "'
+							WHERE
+								id = " . (int)$idUser . "
+						";
+					}
+					else {
+						$query = "
+							UPDATE
+								" . __DBC_SCHEMATA_USERS__ . "
+							SET
+								aggregationStatusCode = '',
+								aggregationReason = ''
+							WHERE
+								id = " . (int)$idUser . "
+						";
+					}
+					
+					$kUser->exeSQL($query);
 				}
 			}
 		}

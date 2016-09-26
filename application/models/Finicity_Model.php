@@ -658,6 +658,7 @@ Class Finicity_Model extends Database_Model
 			$m = ($m == '01' ? '12' : ($m < 10 ? '0' : '') . ((int)$m - 1));
 			$fromDate = strtotime("{$y}-{$m}-01 00:00:00");
 		} */
+		$fromDate = strtotime('-6 months');
 		if(!$toDate)
 			$toDate = time();
 		

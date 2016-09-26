@@ -29,6 +29,34 @@ function connect_with_bank(id){
 	});
 }
 
+function reconnect_with_bank(id){
+	show_container('pp-loading');
+	$.ajax({
+		type: "POST",
+		url: JS_BASE_URL + "handle_ajax_request?p_func=GET_INSTITUTE_LOGIN_FORM_RECONNECT",
+		data:'p_id='+id,
+		success: function(data){
+			hide_container('pp-loading');
+			arData = data.split('|||');
+			if(arData[0] == 'SUCCESS'){
+				$('#loginModal .modal-title').html(arData[1]);
+				$('#loginModal .modal-body').html(arData[2]);
+				show_modal('loginModal');
+				
+				setTimeout(function(){
+					$('#popup-loading').width($('#loginModal .modal-dialog').width()-5).height($('#loginModal .modal-dialog').height()-105);
+					validate_form_fields();
+			    	$('[data-toggle="tooltip"]').tooltip();
+				}, 200);							
+			} else {
+				$('#loginModal .modal-title').html('Connection Error');
+				$('#loginModal .modal-body').html('<div class="alert alert-danger">' + arData[1] + '</div>');
+				show_modal('loginModal');
+			}
+		}
+	});
+}
+
 function activateCustomerAccount(idInstitution){
 	clearInterval(mfa_timer);
 	show_container('pp-loading');
@@ -216,6 +244,106 @@ function addInstitutionAccounts()
 		}
 	  }, 500);	
 }
+function addInstitutionAccountsReconnect()
+{
+	clearInterval(mfa_timer);
+	
+	$('#frmBankLogin .required').each(function(){
+		validate_require_field(this);		
+	});
+	
+	setTimeout(
+	  function() 
+	  {
+	    if($('#frmBankLogin .has-error').length == 0)
+		{
+			show_container('popup-loading');
+			$.ajax({
+				type: "POST",
+				url: JS_BASE_URL + "handle_ajax_request?p_func=LOGIN_WITH_INSTITUTION_RECONNECT",
+				data:$('#frmBankLogin').serialize(),
+				beforeSend: function(){
+					if($('#loginModal .alert-danger').length > 0)
+						$('#loginModal .alert-danger').remove();
+				},
+				success: function(data){
+					hide_container('popup-loading');
+					arData = data.split('|||');
+					if(arData[0] == 'SUCCESS'){
+						hide_modal('loginModal');
+						$('#institution_id').val(arData[1]);
+						$('#account_id').val(arData[2]);
+						$('#account_number').val(arData[3]);
+						$('#statement_file').val(arData[4]);
+						window.location.reload();
+					}else if(arData[0] == 'MFA'){
+						$('#loginModal .modal-title').html(arData[1]);
+						$('#loginModal .modal-body').html(arData[2]);
+						show_modal('loginModal');
+					    
+					    setTimeout(function(){
+							$('#popup-loading').width($('#loginModal .modal-dialog').width()-5).height($('#loginModal .modal-dialog').height()-105);
+							validate_form_fields();
+					    	$('[data-toggle="tooltip"]').tooltip();
+						}, 200);	
+					    
+					    var ctr = 0;					    
+						mfa_timer = setInterval(function(){
+							current_time_s = parseInt($('#seconds').html());
+							
+							if(current_time_s == 0)
+							{
+								hide_modal('loginModal');
+								clearInterval(mfa_timer);
+								/* window.location = JS_BASE_URL + "/users/signup/link-your-bank"; */
+								window.location.reload();
+							}
+							else
+							{
+								current_time_s = current_time_s - 1;
+								
+								if(current_time_s < 10)
+									current_time_s = '00' + current_time_s;	
+								else if(current_time_s < 100)
+									current_time_s = '0' + current_time_s;
+			
+								$('#seconds').html(current_time_s);
+							}					
+						}, 1000);
+					} else {
+						$('#frmBankLogin').before('<div class="alert alert-danger">' + arData[1] + '</div>');
+					}
+				},
+				error: function (jqXHR, exception) {
+			        var msg = '';
+			        if (jqXHR.status === 0) {
+			            msg = 'Not connect.\n Verify Network.';
+			        } else if (jqXHR.status == 404) {
+			            msg = 'Requested page not found. [404]';
+			        } else if (jqXHR.status == 500) {
+			            msg = 'Internal Server Error [500].';
+			        } else if (exception === 'parsererror') {
+			            msg = 'Requested JSON parse failed.';
+			        } else if (exception === 'timeout') {
+			            msg = 'Time out error.';
+			        } else if (exception === 'abort') {
+			            msg = 'Ajax request aborted.';
+			        } else {
+			            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			        }
+			        
+			        $('#loginModal .modal-title').html('Something went wrong');
+					$('#loginModal .modal-body').html('<h6 class="color-red">Something went wrong while processing your request. Please wait for a while, it will again make an attempt.</h6>');
+					show_modal('loginModal');
+					
+			       setTimeout(function(){
+				        window.location.reload();
+					}, 5000);
+			    }
+			});
+		}
+	  }, 500);	
+}
 
 function addInstitutionAccountsMFA()
 {
@@ -293,6 +421,89 @@ function addInstitutionAccountsMFA()
 					
 			        setTimeout(function(){
 				        window.location = JS_BASE_URL + "/users/signup/link-your-bank";
+					}, 5000);
+			    }
+			});
+		}
+	  }, 500);	
+}
+
+function addInstitutionAccountsMFAReconnect()
+{
+	clearInterval(mfa_timer);
+	
+	$('#frmBankLogin .required').each(function(){
+		validate_require_field(this);		
+	});
+	
+	setTimeout(
+	  function() 
+	  {
+	    if($('#frmBankLogin .has-error').length == 0)
+		{
+			show_container('popup-loading');
+			$.ajax({
+				type: "POST",
+				url: JS_BASE_URL + "handle_ajax_request?p_func=LOGIN_WITH_INSTITUTION_MFA",
+				data:$('#frmBankLoginMFA').serialize(),
+				beforeSend: function(){
+					if($('#loginModal .alert-danger').length > 0)
+						$('#loginModal .alert-danger').remove();
+				},
+				success: function(data){
+					hide_container('popup-loading');
+					arData = data.split('|||');
+					if(arData[0] == 'SUCCESS'){
+						hide_modal('loginModal');
+						$('#institution_id').val(arData[1]);
+						$('#account_id').val(arData[2]);
+						$('#account_number').val(arData[3]);
+						$('#statement_file').val(arData[4]);
+						$('#frmAuthentication').submit();
+					}else if(arData[0] == 'MFA'){
+						$('#loginModal .modal-title').html(arData[1]);
+						$('#loginModal .modal-body').html(arData[2]);
+						show_modal('loginModal');
+						
+						setTimeout(function(){
+							$('#popup-loading').width($('#loginModal .modal-dialog').width()-5).height($('#loginModal .modal-dialog').height()-105);
+							validate_form_fields();
+					    	$('[data-toggle="tooltip"]').tooltip();
+						}, 200);
+						
+						var ctr = 0;
+						mfa_timer = setInterval(function(){
+							current_time_s = parseInt($('#seconds').html());
+							
+							if(current_time_s == 0)
+							{
+								hide_modal('loginModal');
+								clearInterval(mfa_timer);
+								window.location.reload();
+							}
+							else
+							{
+								current_time_s = current_time_s - 1;
+								
+								if(current_time_s < 10)
+									current_time_s = '00' + current_time_s;	
+								else if(current_time_s < 100)
+									current_time_s = '0' + current_time_s;
+			
+								$('#seconds').html(current_time_s);
+							}					
+						}, 1000);	
+					} else {
+						$('#frmBankLoginMFA').before('<div class="alert alert-danger">' + arData[1] + '</div>');
+					}
+				},
+				error: function (jqXHR, exception) {
+			        $('#loginModal .modal-title').html('Something went wrong');
+					$('#loginModal .modal-body').html('<h6 class="color-red">Something went wrong while processing your request. Please wait for a while, it will again make an attempt.</h6>');
+					show_modal('loginModal');
+					
+			        setTimeout(function(){
+				        window.location.reload();
 					}, 5000);
 			    }
 			});
@@ -471,7 +682,7 @@ function updateInstitutionNumber(idInstitute, szNumber)
 }
 
 function check_confirm(p_id, p_text, p_key, p_func)
-{
+{ 
 	$('#confirmationModal #p_id').val(p_id);
 	$('#confirmationModal #p_func').val(p_key);
 	$('#confirmationModal #p_re_func').val('');
